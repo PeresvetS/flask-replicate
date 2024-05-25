@@ -7,7 +7,7 @@ from base64 import b64encode
 def create_app():
     app = Flask(__name__)
 
-    api_key = "YOUR_API_KEY"
+    api_key = "REGMIND_API_KEY"
     segmind_url = "https://api.segmind.com/v1/instantid"
 
     # Путь для сохранения изображений
@@ -52,22 +52,29 @@ def create_app():
 
         headers = {'x-api-key': api_key}
 
-        response = requests.post(segmind_url, json=payload, headers=headers)
+        try:
+            response = requests.post(segmind_url, json=payload, headers=headers)
+            response.raise_for_status()
+        except requests.RequestException as e:
+            app.logger.error(f"Request to Segmind failed: {e}")
+            return jsonify({"error": "Failed to generate image"}), 500
 
-        if response.status_code == 200:
-            image = response.content
-            file_name = f"generated_image_{int(time.time())}.jpg"
-            file_path = os.path.join(save_path, file_name)
+        image = response.content
+        file_name = f"generated_image_{int(time.time())}.jpg"
+        file_path = os.path.join(save_path, file_name)
+
+        try:
             with open(file_path, "wb") as f:
                 f.write(image)
-            return jsonify({"image_url": f"/data/{file_name}"})
-        else:
-            return jsonify({"error": "Failed to generate image"}), 500
+        except IOError as e:
+            app.logger.error(f"Failed to save image: {e}")
+            return jsonify({"error": "Failed to save image"}), 500
+
+        return jsonify({"image_url": f"/data/{file_name}"})
 
     return app
 
 
-
 if __name__ == '__main__':
     app = create_app()
-    app.run(debug=False)
+    app.run(debug=True)
