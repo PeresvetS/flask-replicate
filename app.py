@@ -7,7 +7,9 @@ from base64 import b64encode
 def create_app():
     app = Flask(__name__)
 
-    api_key = "REGMIND_API_KEY"
+    api_key = os.getenv("SEGMIND_API_KEY")
+    if not api_key:
+        raise ValueError("No SEGMIND_API_KEY set for Flask application")
     segmind_url = "https://api.segmind.com/v1/instantid"
 
     # Путь для сохранения изображений
