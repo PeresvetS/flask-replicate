@@ -63,4 +63,5 @@ def generate():
         return jsonify({"error": "Failed to generate image"}), 500
 
 if __name__ == '__main__':
+    app = create_app()
     app.run(debug=True)
