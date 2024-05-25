@@ -4,7 +4,9 @@ import replicate
 app = Flask(__name__)
 
 # Аутентификация с помощью API-ключа
-client = replicate.Client(api_token="REPLICATE_API_TOKEN")
+api_token = os.getenv("REPLICATE_API_TOKEN")
+client = replicate.Client(api_token=api_token)
+
 
 @app.route('/generate', methods=['POST'])
 def generate():
