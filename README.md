@@ -1,1 +1,1 @@
-# flask-replicate
+# flask-segmind
