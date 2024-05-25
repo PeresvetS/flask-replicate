@@ -24,7 +24,7 @@ def create_app():
         prompt = data.get("prompt")
         face_image_url = data.get("face_image")
         negative_prompt = data.get("negative_prompt")
-        # style = data.get("style")
+        style = data.get("style")
         samples = data.get("samples")
         num_inference_steps = data.get("num_inference_steps")
         guidance_scale = data.get("guidance_scale")
@@ -41,7 +41,7 @@ def create_app():
             "prompt": prompt,
             "face_image": to_b64(face_image_url),
             "negative_prompt": negative_prompt,
-            # "style": style,
+            "style": style,
             "samples": samples,
             "num_inference_steps": num_inference_steps,
             "guidance_scale": guidance_scale,
