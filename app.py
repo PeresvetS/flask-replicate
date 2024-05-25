@@ -58,7 +58,7 @@ def generate():
         file_path = os.path.join(save_path, file_name)
         with open(file_path, "wb") as f:
             f.write(image)
-        return jsonify({"image_url": f"/data/{file_name}"})
+        return jsonify({"   ": f"/data/{file_name}"})
     else:
         return jsonify({"error": "Failed to generate image"}), 500
 
