@@ -22,16 +22,11 @@ def generate():
         hardware="gpu-a100"
     )
 
-    # Ожидание завершения предсказания
-    prediction.wait()
+    # Получение ID предсказания
+    prediction_id = prediction.id
 
-    # Проверка статуса предсказания
-    if prediction.status == "succeeded":
-        return jsonify({"output": prediction.output})
-    elif prediction.status == "failed":
-        return jsonify({"error": prediction.error}), 500
-    else:
-        return jsonify({"status": prediction.status}), 202
+    # Возвращение ID предсказания
+    return jsonify({"id": prediction_id})
 
 if __name__ == '__main__':
     app.run(debug=True)
