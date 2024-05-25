@@ -1,7 +1,7 @@
 import os
 import time
 import requests
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from base64 import b64encode
 
 def create_app():
@@ -73,6 +73,10 @@ def create_app():
             return jsonify({"error": "Failed to save image"}), 500
 
         return jsonify({"image_url": f"/data/{file_name}"})
+
+    @app.route('/data/<path:filename>')
+    def serve_file(filename):
+        return send_from_directory(save_path, filename)
 
     return app
 
