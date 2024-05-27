@@ -2,11 +2,14 @@ import os
 import time
 import random
 import requests
+import logging
 from flask import Flask, request, jsonify, send_from_directory
 from base64 import b64encode
 
 def create_app():
     app = Flask(__name__)
+
+    app.logger.setLevel(logging.DEBUG) 
 
     random_integer = random.randint(1, 999999999)
 
@@ -39,9 +42,6 @@ def create_app():
             app.logger.error("Invalid input data")
             return jsonify({"error": "Invalid input data"}), 400
 
-        if not prompt or not face_image_url:
-            return jsonify({"error": "Invalid input data"}), 400
-
         payload = { 
             "prompt": prompt,
             "face_image": to_b64(face_image_url),
@@ -57,16 +57,22 @@ def create_app():
             "base64": False
         }
 
-        headers = {'x-api-key': api_key}
+        headers = {
+            'x-api-key': api_key,
+            'Content-Type': 'application/json'
+        }
 
-        app.logger.info(f"Payload: {payload}")
+        app.logger.debug(f"Payload: {payload}")
 
         try:
-            response = requests.post(segmind_url, json=payload, headers=headers)
+            response = requests.post(url=segmind_url, json=payload, headers=headers)
             response.raise_for_status()
         except requests.RequestException as e:
-            app.logger.error(f"Request to Segmind failed: {e}")
-            return jsonify({"error": "Failed to generate image"}), 500
+           app.logger.error(f"Request to Segmind failed: {e}")
+           app.logger.error(f"Response content: {response.content}")
+           app.logger.error(f"Response status code: {response.status_code}")
+           app.logger.error(f"Request payload: {payload}")
+           return jsonify({"error": "Failed to generate image"}), 500
 
         image = response.content
         file_name = f"generated_image_{int(time.time())}.jpg"
