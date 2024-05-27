@@ -7,6 +7,8 @@ from base64 import b64encode
 def create_app():
     app = Flask(__name__)
 
+    random_integer = random.randint(1, 999999999)
+
     api_key = os.getenv("SEGMIND_API_KEY")
     if not api_key:
         raise ValueError("No SEGMIND_API_KEY set for Flask application")
@@ -28,16 +30,18 @@ def create_app():
         samples = data.get("samples")
         num_inference_steps = data.get("num_inference_steps")
         guidance_scale = data.get("guidance_scale")
-        seed = data.get("seed")
         identity_strength = data.get("identity_strength")
         adapter_strength = data.get("adapter_strength")
-        enhance_face_region = data.get("enhance_face_region")
-        base64_required = data.get("base64")
+
+
+        if not prompt or not face_image_url:
+            app.logger.error("Invalid input data")
+            return jsonify({"error": "Invalid input data"}), 400
 
         if not prompt or not face_image_url:
             return jsonify({"error": "Invalid input data"}), 400
 
-        payload = {
+        payload = { 
             "prompt": prompt,
             "face_image": to_b64(face_image_url),
             "negative_prompt": negative_prompt,
@@ -45,14 +49,16 @@ def create_app():
             "samples": samples,
             "num_inference_steps": num_inference_steps,
             "guidance_scale": guidance_scale,
-            "seed": seed,
+            "seed": random_integer,
             "identity_strength": identity_strength,
             "adapter_strength": adapter_strength,
-            "enhance_face_region": enhance_face_region,
-            "base64": base64_required
+            "enhance_face_region": True,
+            "base64": False
         }
 
         headers = {'x-api-key': api_key}
+
+        app.logger.info(f"Payload: {payload}")
 
         try:
             response = requests.post(segmind_url, json=payload, headers=headers)
