@@ -4,10 +4,6 @@ import random
 import requests
 import logging
 from flask import Flask, request, jsonify, send_from_directory
-from base64 import b64encode
-
-def toB64(imgUrl):
-    return str(b64encode(requests.get(imgUrl).content))[2:-1]
 
 def create_app():
     app = Flask(__name__)
@@ -23,9 +19,6 @@ def create_app():
 
     # Путь для сохранения изображений
     save_path = os.getenv("RAILWAY_VOLUME_MOUNT_PATH", "/app/data")
-
-    def to_b64(img_url):
-        return b64encode(requests.get(img_url).content).decode('utf-8')
 
     @app.route('/generate', methods=['POST'])
     def generate():
@@ -47,7 +40,7 @@ def create_app():
 
         payload = { 
             "prompt": prompt,
-            "face_image": toB64(face_image_url),
+            "face_image": face_image_url,
             "negative_prompt": negative_prompt,
             "style": style,
             "samples": samples,
