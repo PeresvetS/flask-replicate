@@ -4,6 +4,10 @@ import random
 import requests
 import logging
 from flask import Flask, request, jsonify, send_from_directory
+from base64 import b64encode
+
+def toB64(imgUrl):
+    return str(b64encode(requests.get(imgUrl).content))[2:-1]
 
 def create_app():
     app = Flask(__name__)
@@ -43,7 +47,7 @@ def create_app():
 
         payload = { 
             "prompt": prompt,
-            "face_image": face_image_url,
+            "face_image": toB64(face_image_url),
             "negative_prompt": negative_prompt,
             "style": style,
             "samples": samples,
@@ -60,8 +64,6 @@ def create_app():
             'x-api-key': api_key,
             'Content-Type': 'application/json'
         }
-
-        app.logger.debug(f"Payload: {payload}")
 
         try:
             response = requests.post(url=segmind_url, json=payload, headers=headers)
