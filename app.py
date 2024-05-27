@@ -4,7 +4,6 @@ import random
 import requests
 import logging
 from flask import Flask, request, jsonify, send_from_directory
-from base64 import b64encode
 
 def create_app():
     app = Flask(__name__)
@@ -44,7 +43,7 @@ def create_app():
 
         payload = { 
             "prompt": prompt,
-            "face_image": to_b64(face_image_url),
+            "face_image": face_image_url,
             "negative_prompt": negative_prompt,
             "style": style,
             "samples": samples,
