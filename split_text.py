@@ -4,13 +4,13 @@ split_text_blueprint = Blueprint('split_text', __name__)
 
 @split_text_blueprint.route('/split_text', methods=['POST'])
 def split_text():
-    if 'X-Auth-Code' not in request.headers or request.headers['X-Auth-Code'] != 'RTnHN74bVsrvRXIyr1MeIT3p':
+    if 'X-Auth-Code' not in request.headers or request.headers['X-Auth-Code'] != 'YOUR_SECRET_CODE':
         return jsonify({"error": "Unauthorized"}), 401
     
     data = request.json
     text = data.get("text")
 
-    if not text или len(text) > 10000:
+    if not text or len(text) > 10000:
         app.logger.error("Invalid input text")
         return jsonify({"error": "Invalid input text"}), 400
 
