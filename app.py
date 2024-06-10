@@ -2,7 +2,6 @@ import os
 import sys
 import logging
 from flask import Flask
-from waitress import serve
 from generate import generate_blueprint
 from split_text import split_text_blueprint
 
