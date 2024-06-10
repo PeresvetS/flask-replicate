@@ -10,11 +10,16 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 SEGMIND_API_KEY = os.getenv("SEGMIND_API_KEY")
 segmind_url = "https://api.segmind.com/v1/sdxl1.0-juggernaut-lightning"
 save_path = os.getenv("RAILWAY_VOLUME_MOUNT_PATH", "/app/data")
-data = request.json
-gender = data.get("gender")
-archetype = data.get("archetype")
 
 def get_openai_prompt(archetype):
+    data = request.json
+    gender = data.get("gender")
+    archetype = data.get("archetype")
+
+    if not gender or not archetype:
+        app.logger.error("Invalid input data")
+        return jsonify({"error": "Invalid input data"}), 400
+
     openai_payload = {
         "model": "gpt-4o",
         "messages": [
@@ -78,10 +83,6 @@ def save_image(image):
 
 @make_archetype_img_blueprint.route('/make_archetype_img', methods=['POST'])
 def make_archetype_img():
-
-    if not gender or not archetype:
-        app.logger.error("Invalid input data")
-        return jsonify({"error": "Invalid input data"}), 400
 
     if 'X-Auth-Code' not in request.headers or request.headers['X-Auth-Code'] != os.getenv('API_SECRET_CODE'):
         return jsonify({"error": "Unauthorized"}), 401
