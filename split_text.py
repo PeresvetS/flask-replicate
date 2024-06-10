@@ -14,8 +14,8 @@ def split_text():
     text = data.get("text")
 
     if not text or len(text) > 10000:
-        app.logger.error("Invalid input text")
-        return jsonify({"error": "Invalid input text, result -- {text}"}), 400
+        app.logger.error("Invalid input text, result-- {text}")
+        return jsonify({"error": "Invalid input text"}), 400
 
     split_text = [text[i:i+600] for i in range(0, len(text), 600)]
     response = {f"part_{i+1}": split_text[i] for i in range(len(split_text))}
