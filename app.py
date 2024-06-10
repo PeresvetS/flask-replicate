@@ -3,7 +3,7 @@ import sys
 import logging
 from flask import Flask
 from generate import generate_blueprint
-from split_text import split_text_blueprint
+from get_unpack import get_unpack_blueprint
 from make_archetype_img import make_archetype_img_blueprint
 
 def create_app():
@@ -26,7 +26,7 @@ def create_app():
         return "Hello, World!"
 
     app.register_blueprint(generate_blueprint)
-    app.register_blueprint(split_text_blueprint)
+    app.register_blueprint(get_unpack_blueprint)
     app.register_blueprint(make_archetype_img_blueprint)
 
 
