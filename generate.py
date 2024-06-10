@@ -14,8 +14,8 @@ save_path = os.getenv("RAILWAY_VOLUME_MOUNT_PATH", "/app/data")
 
 @generate_blueprint.route('/generate', methods=['POST'])
 def generate():
-    if 'X-Auth-Code' not in request.headers or request.headers['X-Auth-Code'] != 'YOUR_SECRET_CODE':
-        return jsonify({"error": "Unauthorized"}), 401
+    # if 'X-Auth-Code' not in request.headers or request.headers['X-Auth-Code'] != 'YOUR_SECRET_CODE':
+    #     return jsonify({"error": "Unauthorized"}), 401
     
     data = request.json
     prompt = data.get("prompt")
