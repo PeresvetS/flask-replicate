@@ -4,6 +4,7 @@ import logging
 from flask import Flask
 from generate import generate_blueprint
 from split_text import split_text_blueprint
+from make_archetype_img import make_archetype_img_blueprint
 
 def create_app():
     app = Flask(__name__)
@@ -26,6 +27,8 @@ def create_app():
 
     app.register_blueprint(generate_blueprint)
     app.register_blueprint(split_text_blueprint)
+    app.register_blueprint(make_archetype_img_blueprint)
+
 
     return app
 
