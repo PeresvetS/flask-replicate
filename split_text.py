@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, request, jsonify, current_app as app
 
 split_text_blueprint = Blueprint('split_text', __name__)
@@ -5,7 +6,7 @@ split_text_blueprint = Blueprint('split_text', __name__)
 @split_text_blueprint.route('/split_text', methods=['POST'])
 def split_text():
     app.logger.debug("Received request at /split_text")
-    if 'X-Auth-Code' not in request.headers or request.headers['X-Auth-Code'] != 'YOUR_SECRET_CODE':
+    if 'X-Auth-Code' not in request.headers or request.headers['X-Auth-Code'] != os.getenv('API_SECRET_CODE'):
         app.logger.error("Unauthorized request")
         return jsonify({"error": "Unauthorized"}), 401
     
