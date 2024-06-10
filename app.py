@@ -19,6 +19,11 @@ def create_app():
     root_logger = logging.getLogger()
     root_logger.addHandler(stream_handler)
 
+    @app.route('/')
+    def index():
+        app.logger.debug("Index route accessed")
+        return "Hello, World!"
+
 
     # Зарегистрируйте маршруты
     app.register_blueprint(generate_blueprint)
