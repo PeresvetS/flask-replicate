@@ -5,12 +5,14 @@ import re
 def add_footer_with_text_and_squares(image_path, colors_and_text):
     # Найти все цветовые кортежи
     colors = re.findall(r'\(\d{1,3}, \d{1,3}, \d{1,3}\)', colors_and_text)
+    
 
     # Преобразовать строки с цветами в кортежи
     colors = [eval(color) for color in colors]
 
     # Найти текстовую часть
-    text = re.search(r'\), (.*)$', colors_and_text).group(1).strip()
+    text_match = re.search(r'\)\s*,\s*(.*)$', colors_and_text)
+    text = text_match.group(1).strip() if text_match else ""
     
     # Получить базовый путь из переменной окружения
     base_path = os.getenv("RAILWAY_VOLUME_MOUNT_PATH", "/app/data")
@@ -26,8 +28,8 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
     image = Image.open(full_image_path)
     width, height = image.size
 
-    # Создать новое изображение с дополнительными 300 пикселями снизу
-    new_height = height + 300
+    # Создать новое изображение с дополнительными 200 пикселями снизу
+    new_height = height + 200
     new_image = Image.new('RGB', (width, new_height), (255, 255, 255))
     new_image.paste(image, (0, 0))
 
@@ -46,7 +48,7 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
         draw.rectangle([position, (position[0] + square_size, position[1] + square_size)], fill=color)
 
     # Добавить текст
-    font = ImageFont.load_default(size=72)
+    font = ImageFont.load_default(size=20)
     text_position = (20, height + 40)  # Поднято вверх
     draw.text(text_position, text, fill=(0, 0, 0), font=font)
 
