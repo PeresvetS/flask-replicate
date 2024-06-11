@@ -39,7 +39,8 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
     # Задать параметры квадратов
     square_size = 100
     padding_right = 25
-    positions = [(width - (3 * square_size + 2 * padding_right), height + 20),
+    positions = [(width - (4 * square_size + 2 * padding_right), height + 20),
+                 (width - (3 * square_size + 2 * padding_right), height + 20),
                  (width - (2 * square_size + padding_right), height + 20),
                  (width - square_size, height + 20)]
 
