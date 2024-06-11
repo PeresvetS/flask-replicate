@@ -1,9 +1,20 @@
 import os
 from PIL import Image, ImageDraw, ImageFont
 
+
 def add_footer_with_text_and_squares(image_path):
+    # Получить базовый путь из переменной окружения
+    base_path = os.getenv("RAILWAY_VOLUME_MOUNT_PATH", "/app/data")
+
+    # Полный путь к файлу
+    full_image_path = os.path.join(base_path, image_path)
+
+    # Проверка существования файла
+    if not os.path.isfile(full_image_path):
+        raise FileNotFoundError(f"No such file: '{full_image_path}'")
+
     # Открыть исходное изображение
-    image = Image.open(image_path)
+    image = Image.open(full_image_path)
     width, height = image.size
 
     # Создать новое изображение с дополнительными 300 пикселями снизу
@@ -30,8 +41,8 @@ def add_footer_with_text_and_squares(image_path):
     draw.text(text_position, text, fill=(0, 0, 0), font=font)
 
     # Сохранить новое изображение во временный файл
-    temp_path = "temp_image.jpg"
+    temp_path = os.path.join(base_path, "temp_image.jpg")
     new_image.save(temp_path)
 
     # Переместить временный файл на место исходного
-    os.replace(temp_path, image_path)
+    os.replace(temp_path, full_image_path)
