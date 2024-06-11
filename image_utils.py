@@ -1,6 +1,5 @@
-import os
 from PIL import Image, ImageDraw, ImageFont
-
+import os
 
 def add_footer_with_text_and_squares(image_path):
     # Получить базовый путь из переменной окружения
@@ -26,9 +25,9 @@ def add_footer_with_text_and_squares(image_path):
     draw = ImageDraw.Draw(new_image)
 
     # Задать параметры квадратов
-    square_size = 50
+    square_size = 100  # Увеличено в 2 раза
     colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
-    positions = [(width - 160, height + 20), (width - 100, height + 20), (width - 40, height + 20)]
+    positions = [(20, height + 20), (140, height + 20), (260, height + 20)]  # Сдвинуто влево
 
     # Нарисовать квадраты
     for position, color in zip(positions, colors):
@@ -36,8 +35,8 @@ def add_footer_with_text_and_squares(image_path):
 
     # Добавить текст
     text = "Your Text Here"
-    font = ImageFont.load_default()
-    text_position = (20, height + 120)
+    font = ImageFont.truetype("arial.ttf", 72)  # Увеличено в 3 раза
+    text_position = (20, height + 140)
     draw.text(text_position, text, fill=(0, 0, 0), font=font)
 
     # Сохранить новое изображение во временный файл
