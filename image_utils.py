@@ -11,7 +11,7 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
     colors = [eval(color) for color in colors]
 
     # Найти текстовую часть
-    text_match = re.search(r'\)\s*,\s*(.*)$', colors_and_text)
+    text_match = re.search(r'[a-zA-Z]+.', colors_and_text)
     text = text_match.group(1).strip() if text_match else ""
     
     # Получить базовый путь из переменной окружения
