@@ -46,7 +46,7 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
         draw.rectangle([position, (position[0] + square_size, position[1] + square_size)], fill=color)
 
     # Добавить текст
-    font = ImageFont.truetype("arial.ttf", 72)
+    font = ImageFont.load_default(size=72)
     text_position = (20, height + 40)  # Поднято вверх
     draw.text(text_position, text, fill=(0, 0, 0), font=font)
 
