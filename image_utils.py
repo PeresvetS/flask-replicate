@@ -1,7 +1,19 @@
-from PIL import Image, ImageDraw, ImageFont
 import os
+import re
+from PIL import Image, ImageDraw, ImageFont
 
-def add_footer_with_text_and_squares(image_path):
+
+def add_footer_with_text_and_squares(image_path, colors_and_text):
+
+    # Найти все цветовые кортежи
+    colors = re.findall(r'\(\d{1,3}, \d{1,3}, \d{1,3}\)', colors_and_text)
+
+    # Преобразовать строки с цветами в кортежи
+    colors = [eval(color) for color in colors]
+
+    # Найти текстовую часть
+    text = re.search(r'\), (.*)$', colors_and_text).group(1)
+    
     # Получить базовый путь из переменной окружения
     base_path = os.getenv("RAILWAY_VOLUME_MOUNT_PATH", "/app/data")
 
@@ -26,7 +38,6 @@ def add_footer_with_text_and_squares(image_path):
 
     # Задать параметры квадратов
     square_size = 100  # Увеличено в 2 раза
-    colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
     positions = [(20, height + 20), (140, height + 20), (260, height + 20)]  # Сдвинуто влево
 
     # Нарисовать квадраты
@@ -34,7 +45,6 @@ def add_footer_with_text_and_squares(image_path):
         draw.rectangle([position, (position[0] + square_size, position[1] + square_size)], fill=color)
 
     # Добавить текст
-    text = "Your Text Here"
     font = ImageFont.truetype("arial.ttf", 72)  # Увеличено в 3 раза
     text_position = (20, height + 140)
     draw.text(text_position, text, fill=(0, 0, 0), font=font)
