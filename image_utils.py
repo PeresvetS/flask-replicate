@@ -37,19 +37,21 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
     draw = ImageDraw.Draw(new_image)
 
     # Задать параметры квадратов
-    square_size = 100
-    padding_right = 25
-    positions = [(width - (4 * square_size + 2 * padding_right), height + 20),
-                 (width - (3 * square_size + 2 * padding_right), height + 20),
-                 (width - (2 * square_size + padding_right), height + 20),
-                 (width - square_size, height + 20)]
+    square_size = 90
+    padding_right = 15
+    positions = [
+        (width - (4 * square_size + 3 * padding_right), height + 20),
+        (width - (3 * square_size + 2 * padding_right), height + 20),
+        (width - (2 * square_size + padding_right), height + 20),
+        (width - square_size - padding_right, height + 20)
+    ]
 
     # Нарисовать квадраты
     for position, color in zip(positions, colors):
         draw.rectangle([position, (position[0] + square_size, position[1] + square_size)], fill=color)
 
     # Добавить текст
-    font = ImageFont.load_default(size=55)
+    font = ImageFont.load_default(size=50)
     text_position = (20, height + 50)  # Поднято вверх
     draw.text(text_position, text, fill=(0, 0, 0), font=font)
 
