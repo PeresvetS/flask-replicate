@@ -2,6 +2,7 @@ import os
 import time
 import random
 import requests
+from image_utils import add_footer_with_text_and_squares
 from flask import Blueprint, request, jsonify, send_from_directory, current_app as app
 
 make_archetype_img_blueprint = Blueprint('make_archetype_img', __name__)
@@ -98,6 +99,8 @@ def make_archetype_img():
     file_name = save_image(image)
     if not file_name:
         return jsonify({"error": "Failed to save image"}), 500
+    
+    add_footer_with_text_and_squares(file_name)
 
     return jsonify({"image_url": f"/data/{file_name}"})
 
