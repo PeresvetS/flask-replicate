@@ -35,16 +35,15 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
     draw = ImageDraw.Draw(new_image)
 
     # Задать параметры квадратов
-    square_size = 100  # Увеличено в 2 раза
-    positions = [(20, height + 20), (140, height + 20), (260, height + 20)]  # Сдвинуто влево
+    square_size = 100
+    positions = [(20, height + 20), (140, height + 20), (260, height + 20)]
 
     # Нарисовать квадраты
     for position, color in zip(positions, colors):
         draw.rectangle([position, (position[0] + square_size, position[1] + square_size)], fill=color)
 
     # Добавить текст
-    font_path = os.path.join("fonts", "arial.ttf")
-    font = ImageFont.truetype(font_path, 72)  # Увеличено в 3 раза
+    font = ImageFont.load_default()
     text_position = (20, height + 140)
     draw.text(text_position, text, fill=(0, 0, 0), font=font)
 
