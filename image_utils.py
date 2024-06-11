@@ -29,7 +29,7 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
     width, height = image.size
 
     # Создать новое изображение с дополнительными 200 пикселями снизу
-    new_height = height + 200
+    new_height = height + 180
     new_image = Image.new('RGB', (width, new_height), (255, 255, 255))
     new_image.paste(image, (0, 0))
 
@@ -38,7 +38,7 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
 
     # Задать параметры квадратов
     square_size = 100
-    padding_right = 20
+    padding_right = 25
     positions = [(width - (3 * square_size + 2 * padding_right), height + 20),
                  (width - (2 * square_size + padding_right), height + 20),
                  (width - square_size, height + 20)]
@@ -48,8 +48,8 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
         draw.rectangle([position, (position[0] + square_size, position[1] + square_size)], fill=color)
 
     # Добавить текст
-    font = ImageFont.load_default(size=45)
-    text_position = (20, height + 40)  # Поднято вверх
+    font = ImageFont.load_default(size=55)
+    text_position = (20, height + 50)  # Поднято вверх
     draw.text(text_position, text, fill=(0, 0, 0), font=font)
 
     # Сохранить новое изображение во временный файл
