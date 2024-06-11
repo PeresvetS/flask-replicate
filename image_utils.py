@@ -7,16 +7,18 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
     # Найти все цветовые кортежи
     colors = re.findall(r'\(\d{1,3}, \d{1,3}, \d{1,3}\)', colors_and_text)
 
+    app.logger.error(f"{colors_and_text}")
+
     # Преобразовать строки с цветами в кортежи
     colors = [eval(color) for color in colors]
 
     # Найти текстовую часть
     text_match = re.search(r'[a-zA-Z]+.', colors_and_text)
-    app.logger.error("{text_match}")
+    app.logger.error(f'{text_match}')
     test = text_match.group(1)
-    app.logger.error("{test}")
+    app.logger.error(f"{test}")
     text = test.group(1).strip() if text_match else ""
-    app.logger.error("{text}")
+    app.logger.error(f"{text}")
     
     # Получить базовый путь из переменной окружения
     base_path = os.getenv("RAILWAY_VOLUME_MOUNT_PATH", "/app/data")
