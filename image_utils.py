@@ -1,10 +1,8 @@
+from PIL import Image, ImageDraw, ImageFont
 import os
 import re
-from PIL import Image, ImageDraw, ImageFont
-
 
 def add_footer_with_text_and_squares(image_path, colors_and_text):
-
     # Найти все цветовые кортежи
     colors = re.findall(r'\(\d{1,3}, \d{1,3}, \d{1,3}\)', colors_and_text)
 
@@ -45,7 +43,8 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
         draw.rectangle([position, (position[0] + square_size, position[1] + square_size)], fill=color)
 
     # Добавить текст
-    font = ImageFont.truetype("arial.ttf", 72)  # Увеличено в 3 раза
+    font_path = os.path.join("fonts", "arial.ttf")
+    font = ImageFont.truetype(font_path, 72)  # Увеличено в 3 раза
     text_position = (20, height + 140)
     draw.text(text_position, text, fill=(0, 0, 0), font=font)
 
