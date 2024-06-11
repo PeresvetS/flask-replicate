@@ -10,7 +10,7 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
     colors = [eval(color) for color in colors]
 
     # Найти текстовую часть
-    text = re.search(r'\), (.*)$', colors_and_text).group(1)
+    text = re.search(r'\), (.*)$', colors_and_text).group(1).strip()
     
     # Получить базовый путь из переменной окружения
     base_path = os.getenv("RAILWAY_VOLUME_MOUNT_PATH", "/app/data")
@@ -36,15 +36,18 @@ def add_footer_with_text_and_squares(image_path, colors_and_text):
 
     # Задать параметры квадратов
     square_size = 100
-    positions = [(20, height + 20), (140, height + 20), (260, height + 20)]
+    padding_right = 20
+    positions = [(width - (3 * square_size + 2 * padding_right), height + 20),
+                 (width - (2 * square_size + padding_right), height + 20),
+                 (width - square_size, height + 20)]
 
     # Нарисовать квадраты
     for position, color in zip(positions, colors):
         draw.rectangle([position, (position[0] + square_size, position[1] + square_size)], fill=color)
 
     # Добавить текст
-    font = ImageFont.load_default()
-    text_position = (20, height + 140)
+    font = ImageFont.truetype("arial.ttf", 72)
+    text_position = (20, height + 40)  # Поднято вверх
     draw.text(text_position, text, fill=(0, 0, 0), font=font)
 
     # Сохранить новое изображение во временный файл
